@@ -1,23 +1,24 @@
+// User interface class to interact with the player via command-line input.
+
 import java.util.Scanner;
 
 public class UserInterface {
 
-    Controller controller;
+    Adventure adventure; //instance of adventure class to manage the game
 
-    public UserInterface(Controller controller){
-        this.controller=controller;
+    public UserInterface() {
+        this.adventure = new Adventure();
     }
 
-    public void displayMenu() {
+    //method to display the game and handle user input.
+    public void StartGame() {
 
 
         Scanner input = new Scanner(System.in);
 
         String userinput = "";
 
-        Adventure myAdventure = new Adventure();
-        myAdventure.buildAdventure(); //we start in room1 here(aka currentRoom).
-
+        //instructions for the game.
         System.out.println("welcome to the game" +
                 "\nif you want instructions or an overview of the commandos write 'help'" +
                 "\nif you want to have the description of the room you're in one more time, write 'look'" +
@@ -34,12 +35,13 @@ public class UserInterface {
             switch (userinput) {
                 //start of game
                 case "start":
-                    System.out.println(myAdventure.getCurrentRoomNumber() + ", " + myAdventure.getCurrentRoomDescription());
+                    System.out.println(adventure.getCurrentRoomName() + ", " + adventure.getCurrentRoomDescription());
                     break;
                 //look, is for when you want the room number and description refreshed.
                 case "look":
-                    System.out.println("room: " + myAdventure.getCurrentRoomNumber() +
-                            "\nbeskrivelse: " + myAdventure.getCurrentRoomDescription());
+                    System.out.println("room: " + adventure.getCurrentRoomName() +
+                            "\nbeskrivelse: " + adventure.getCurrentRoomDescription());
+//                    alice.goToEastRoom();
                     break;
                 //help is for orientation menu.
                 case "help":
@@ -56,16 +58,20 @@ public class UserInterface {
                 case "go south":
                 case "go east":
                 case "go west":
-                    if (myAdventure.canMove(userinput)) {
-                        myAdventure.moveToRoom(userinput);
+                    if (adventure.canAliceMove(userinput)) {
+                        adventure.moveAliceToRoom(userinput);
                         System.out.println("you " + userinput);
                     } else {
                         System.out.println("you can't " + userinput + " from here");
                     }
-                    System.out.println("to " + myAdventure.getCurrentRoomNumber() + ", " + myAdventure.getCurrentRoomDescription());
+                    System.out.println("to " + adventure.getCurrentRoomName() + ", " + adventure.getCurrentRoomDescription());
+                    break;
+                case "exit":
                     break;
 
                 default:
+                    //handle unrecognized commands.
+                    System.out.println("unknown command. Type 'help' for assistance.");
 
             }
         }

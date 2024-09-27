@@ -1,5 +1,7 @@
+// class representing a room in the game, with information about adjacent rooms and description
 public class Room {
 
+    // room attributes for name, description, and adjacent rooms.
     private String roomName;
     private String roomDescription;
     private Room northAdjacentRoom;
@@ -7,16 +9,19 @@ public class Room {
     private Room eastAdjacentRoom;
     private Room westAdjacentRoom;
 
+    //Contructor to initialize room with its name and description
     public Room(String roomName, String roomDescription) {
         this.roomName = roomName;
         this.roomDescription = roomDescription;
     }
 
+
+    //getters and setters for adjacent rooms.
     public Room getNorthAdjacentRoom() {
         return northAdjacentRoom;
     }
 
-    public void setNothAdjacentRoom(Room northAdjacentRoom) {
+    public void setNorthAdjacentRoom(Room northAdjacentRoom) {
         this.northAdjacentRoom = northAdjacentRoom;
     }
 
@@ -44,11 +49,13 @@ public class Room {
         this.westAdjacentRoom = westAdjacentRoom;
     }
 
+    // getter for room name.
     public String getRoomName() {
         return roomName;
     }
 
-    public String getRoomDescription(){
+    //getter for room description
+    public String getRoomDescription() {
         return roomDescription;
     }
 
