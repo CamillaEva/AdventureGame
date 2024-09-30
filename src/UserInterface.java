@@ -7,7 +7,7 @@ public class UserInterface {
     Adventure adventure; //instance of adventure class to manage the game
 
     public UserInterface() {
-        this.adventure = new Adventure();
+        adventure = new Adventure();
     }
 
     //method to display the game and handle user input.
@@ -20,11 +20,13 @@ public class UserInterface {
 
         //instructions for the game.
         System.out.println("welcome to the game" +
-                "\nif you want instructions or an overview of the commandos write 'help'" +
-                "\nif you want to have the description of the room you're in one more time, write 'look'" +
-                "\nwhen you're in a room you have some options:" +
-                "\nto move to another room you can write \n'go north', \n'go south', \n'go east', \n'go west' \nto move in whatever direction you want." +
-                "\nif you want to exit the game write 'exit'" +
+                "\n*help* - if you want instructions or an overview of the commandos" +
+                "\n*look* - if you want to have the description of the room you're in one more time, write 'look'" +
+                "\n*go north*\n*go south*\n*go east*\n*go west* - to move in whatever direction you want." +
+                "\n*exit* - if you want to exit the game write 'exit'" +
+                "\n*take + itemname* - to grab an item" +
+                "\n*drop + itemname* - to drop an item" +
+                "\n*inventory* - to get a list of items you carry" +
                 "\nwrite 'start' to begin the game");
 
 
@@ -32,16 +34,15 @@ public class UserInterface {
         //while loopet runs until userinput is exit.
         while (!userinput.equalsIgnoreCase("exit")) {
             userinput = input.nextLine();
-            switch (userinput) {
+            String[] commandoUserinput = userinput.split(" ");
+            switch (commandoUserinput[0]) {
                 //start of game
                 case "start":
-                    System.out.println(adventure.getCurrentRoomName() + ", " + adventure.getCurrentRoomDescription());
+                    System.out.println(adventure.getCurrentRoomDetails());
                     break;
                 //look, is for when you want the room number and description refreshed.
                 case "look":
-                    System.out.println("room: " + adventure.getCurrentRoomName() +
-                            "\nbeskrivelse: " + adventure.getCurrentRoomDescription());
-//                    alice.goToEastRoom();
+                    System.out.println(adventure.getCurrentRoomDetails());
                     break;
                 //help is for orientation menu.
                 case "help":
@@ -53,18 +54,32 @@ public class UserInterface {
                             "'exit' - to end game.\n" +
                             "'look' - to get room number and description again.");
                     break;
-                // for going in any direction.
-                case "go north":
-                case "go south":
-                case "go east":
-                case "go west":
-                    if (adventure.canAliceMove(userinput)) {
-                        adventure.moveAliceToRoom(userinput);
-                        System.out.println("you " + userinput);
+                case "take":
+                    if(adventure.takeItem(commandoUserinput[1]) == true){
+                        System.out.println("you take the " + commandoUserinput[1] + " from the room");
                     } else {
-                        System.out.println("you can't " + userinput + " from here");
+                        System.out.println("theres no " + commandoUserinput[1] + " in the room");
                     }
-                    System.out.println("to " + adventure.getCurrentRoomName() + ", " + adventure.getCurrentRoomDescription());
+                    break;
+                case "drop":
+                    if(adventure.dropItem(commandoUserinput[1]) == true){
+                        System.out.println("you drop the " + commandoUserinput[1] + " in " + adventure.getCurrentRoomName());
+                    } else {
+                        System.out.println("you don't have a " + commandoUserinput[1] + " in your inventory");
+                    }
+                    break;
+                case"inventory":
+                    System.out.println(adventure.findItem());
+                    break;
+                // for going in any direction.
+                case "go":
+                    if (adventure.canAliceMove(commandoUserinput[1])) {
+                        adventure.moveAliceToRoom(commandoUserinput[1]);
+                        System.out.println("you go " + commandoUserinput[1]);
+                    } else {
+                        System.out.println("you can't go " + commandoUserinput[1] + " from here");
+                    }
+                    System.out.println(adventure.getCurrentRoomDetails());
                     break;
                 case "exit":
                     break;

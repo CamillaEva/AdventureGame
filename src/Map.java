@@ -1,6 +1,9 @@
+import java.util.Random;
+
 //class that handles the game map, managing rooms and movement logic.
 public class Map {
     private Room theFirstRoom;
+
 
     //constructor for map, which automatically builds the map when created.
     public Map() {
@@ -101,6 +104,15 @@ public class Map {
         room9.setSouthAdjacentRoom(null);
         room9.setEastAdjacentRoom(null);
         room9.setWestAdjacentRoom(room8);
+
+
+        //Items test:
+
+        room1.addItem("watch", "  it's the white rabbits pocket watch! we will have to find him and give it back.");
+        room4.addItem("bottle", " it's filled with a purple liquid and theres a little note tied to it, that says, drink me.");
+        room4.addItem("bottle2", " it's filled with a blue liquid and theres a little note tied to it, that says, drink me.");
+
+
     }
 
     // getter for the first room.
