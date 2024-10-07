@@ -27,11 +27,12 @@ public class UserInterface {
                 "\n*take + itemname* - to grab an item" +
                 "\n*drop + itemname* - to drop an item" +
                 "\n*inventory* - to get a list of items you carry" +
+                "\n*health* - to see your health in the game." +
                 "\nwrite 'start' to begin the game");
 
 
         userinput = "";
-        //while loopet runs until userinput is exit.
+        //the while loop runs until userinput is exit.
         while (!userinput.equalsIgnoreCase("exit")) {
             userinput = input.nextLine();
             String[] commandoUserinput = userinput.split(" ");
@@ -54,24 +55,46 @@ public class UserInterface {
                             "'exit' - to end game.\n" +
                             "'look' - to get room number and description again.");
                     break;
+                    //for eating food and getting health.
+                case "eat":
+                    isItFood isItFood = adventure.canAliceEat(commandoUserinput[1]);
+                    switch(isItFood){
+                        case IT_IS_FOOD:
+                            System.out.println("yes! you eat the" + commandoUserinput[1]);
+                            break;
+                        case NO_FOOD_FOUND:
+                            System.out.println("there's no food in your inventory nor in the room");
+                            break;
+                        case NOT_FOOD:
+                            System.out.println("That's not food, you can't eat that!");
+                        default:
+                    }
+                    break;
+//                Health for at se health
+                case "health":
+                    System.out.println(adventure.aliceHealth());
+                    break;
+                //take + item to pick up the item in the room
                 case "take":
-                    if(adventure.takeItem(commandoUserinput[1]) == true){
+                    if (adventure.takeItem(commandoUserinput[1]) == true) {
                         System.out.println("you take the " + commandoUserinput[1] + " from the room");
                     } else {
                         System.out.println("theres no " + commandoUserinput[1] + " in the room");
                     }
                     break;
+                //drop + the item you want to drop in the current room
                 case "drop":
-                    if(adventure.dropItem(commandoUserinput[1]) == true){
+                    if (adventure.dropItem(commandoUserinput[1]) == true) {
                         System.out.println("you drop the " + commandoUserinput[1] + " in " + adventure.getCurrentRoomName());
                     } else {
                         System.out.println("you don't have a " + commandoUserinput[1] + " in your inventory");
                     }
                     break;
-                case"inventory":
+                //inventory to check what items you are carrying
+                case "inventory":
                     System.out.println(adventure.findItem());
                     break;
-                // for going in any direction.
+                // go + whatever direction you want to go.
                 case "go":
                     if (adventure.canAliceMove(commandoUserinput[1])) {
                         adventure.moveAliceToRoom(commandoUserinput[1]);
@@ -81,6 +104,7 @@ public class UserInterface {
                     }
                     System.out.println(adventure.getCurrentRoomDetails());
                     break;
+                //press exit to exit game
                 case "exit":
                     break;
 

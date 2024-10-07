@@ -63,6 +63,10 @@ public class Room {
         return roomDescription;
     }
 
+    public ArrayList<Item> getItemList(){
+        return itemList;
+    }
+
     //adds to arraylist.
     public void addItem(String item, String itemDescription) {
         itemList.add(new Item(item, itemDescription));
@@ -72,12 +76,11 @@ public class Room {
         itemList.add(item);
     }
 
-    public Boolean areThereItems() {
-        if (!itemList.isEmpty()) {
-            return true;
-        }
-        return false;
+    public void addFood(String food, String foodDescription, int healthPoints){
+        itemList.add(new Food(food,foodDescription,healthPoints));
     }
+
+
 
     public Item findItemInRoom(String takeItem){
         for(Item item:itemList) {
@@ -87,6 +90,7 @@ public class Room {
         }
         return null;
     }
+
 
     public void removeItemFromList(Item item){
         itemList.remove(item);

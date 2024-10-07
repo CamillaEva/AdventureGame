@@ -109,8 +109,11 @@ public class Map {
         //Items test:
 
         room1.addItem("watch", "  it's the white rabbits pocket watch! we will have to find him and give it back.");
-        room4.addItem("bottle", " it's filled with a purple liquid and theres a little note tied to it, that says, drink me.");
-        room4.addItem("bottle2", " it's filled with a blue liquid and theres a little note tied to it, that says, drink me.");
+        room5.addItem("bottle", " it's filled with a purple liquid and theres a little note tied to it, that says, drink me.");
+        room4.addItem("teacup", " it's a teacup from the wierd teaparty, wonder what flavour it is?.");
+        room9.addItem("paintbrush", " and it's lying next to a bucket filled with red paint.");
+        room1.addFood("cookie", " it's a freshlybaked vanilla cookie, with frosting that says eat me!", 20);
+        room4.addFood("muffin", " it's a yellow muffin with blue buttercream and a little sign on top that says 'take a bite!'", -20);
 
 
     }

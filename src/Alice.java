@@ -3,10 +3,72 @@ import java.util.ArrayList;
 public class Alice {
     private Room theRoomShesin; //the room she's currently in.
     private ArrayList<Item> aliceItems = new ArrayList<>();
+    private int aliceHealthPoints;
 
 
     public Alice(Room firstRoom) {
         theRoomShesin = firstRoom;
+        aliceHealthPoints = 100;
+    }
+
+    public int getAliceHealthPoints() {
+        return aliceHealthPoints;
+    }
+
+    public void setAliceHealthPoints(int aliceHealthPoints) {
+        this.aliceHealthPoints = aliceHealthPoints;
+        if (aliceHealthPoints > 100) {
+            this.aliceHealthPoints = 100;
+        }
+    }
+
+    public String aliceHealth() {
+        if (this.aliceHealthPoints < 50 && this.aliceHealthPoints > 0) {
+            return this.aliceHealthPoints + ", you are low on health";
+        } else if (this.aliceHealthPoints > 50 && this.aliceHealthPoints <= 100) {
+            return this.aliceHealthPoints + ", you have a lot of health";
+        } else if (this.aliceHealthPoints == 50) {
+            return this.aliceHealthPoints + ", you are good girl";
+        } else if (this.aliceHealthPoints <= 0) {
+            return "game over!";
+        } else {
+            return "limit health is 100";
+        }
+    }
+
+    public Item findItemInInventory(String eatItem) {
+        for (Item item : aliceItems) {
+            if (item.getItem().equalsIgnoreCase(eatItem)) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+
+    public void removeFromInventory(Item itemToEat) {
+        aliceItems.remove(itemToEat);
+    }
+
+    public isItFood aliceEats(String eating) {
+        Item itemToEat = findItemInInventory(eating);
+
+        if (itemToEat == null) {
+            itemToEat = theRoomShesin.findItemInRoom(eating);
+        }
+        if (itemToEat == null) {
+            return isItFood.NO_FOOD_FOUND;
+        } else if (itemToEat instanceof Food) {
+            aliceHealthPoints = aliceHealthPoints + ((Food) itemToEat).getHealthPoints();
+            if (aliceItems.contains(itemToEat)) {
+                removeFromInventory(itemToEat);
+            } else {
+                theRoomShesin.removeItemFromList(itemToEat);
+            }
+            return isItFood.IT_IS_FOOD;
+        } else {
+            return isItFood.NOT_FOOD;
+        }
     }
 
 
@@ -25,6 +87,7 @@ public class Alice {
         }
     }
 
+
     public void moveToRoom(String direction) {
         if (direction.equalsIgnoreCase("north")) {
             theRoomShesin = theRoomShesin.getNorthAdjacentRoom();
@@ -38,8 +101,8 @@ public class Alice {
     }
 
 
-    public Item findItem(String findItem){
-        for(Item item:aliceItems) {
+    public Item findItem(String findItem) {
+        for (Item item : aliceItems) {
             if (item.getItem().equalsIgnoreCase(findItem)) {
                 return item;
             }
@@ -48,9 +111,9 @@ public class Alice {
     }
 
 
-    public boolean dropItem(String itemToDrop){
+    public boolean dropItem(String itemToDrop) {
         Item variable = findItem(itemToDrop);
-        if(variable == null){
+        if (variable == null) {
             return false;
         }
         aliceItems.remove(variable);
@@ -58,15 +121,16 @@ public class Alice {
         return true;
     }
 
-    public boolean takeItem(String itemToTake){
+    public boolean takeItem(String itemToTake) {
         Item variableitem = theRoomShesin.findItemInRoom(itemToTake);
-        if(variableitem == null){
+        if (variableitem == null) {
             return false;
         }
         aliceItems.add(variableitem);
         theRoomShesin.removeItemFromList(variableitem);
         return true;
     }
+
 
     //inventory
     public String findItem() {
@@ -107,10 +171,9 @@ public class Alice {
         return theRoomShesin.getRoomDescription();
     }
 
-    public Room getCurrentRoom(){
+    public Room getCurrentRoom() {
         return theRoomShesin;
     }
-
 
 
 }
