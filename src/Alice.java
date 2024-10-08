@@ -4,73 +4,15 @@ public class Alice {
     private Room theRoomShesin; //the room she's currently in.
     private ArrayList<Item> aliceItems = new ArrayList<>();
     private int aliceHealthPoints;
+    private Weapon currentWeapon;
 
 
+    //moving methods for player
     public Alice(Room firstRoom) {
         theRoomShesin = firstRoom;
         aliceHealthPoints = 100;
+        currentWeapon = null;
     }
-
-    public int getAliceHealthPoints() {
-        return aliceHealthPoints;
-    }
-
-    public void setAliceHealthPoints(int aliceHealthPoints) {
-        this.aliceHealthPoints = aliceHealthPoints;
-        if (aliceHealthPoints > 100) {
-            this.aliceHealthPoints = 100;
-        }
-    }
-
-    public String aliceHealth() {
-        if (this.aliceHealthPoints < 50 && this.aliceHealthPoints > 0) {
-            return this.aliceHealthPoints + ", you are low on health";
-        } else if (this.aliceHealthPoints > 50 && this.aliceHealthPoints <= 100) {
-            return this.aliceHealthPoints + ", you have a lot of health";
-        } else if (this.aliceHealthPoints == 50) {
-            return this.aliceHealthPoints + ", you are good girl";
-        } else if (this.aliceHealthPoints <= 0) {
-            return "game over!";
-        } else {
-            return "limit health is 100";
-        }
-    }
-
-    public Item findItemInInventory(String eatItem) {
-        for (Item item : aliceItems) {
-            if (item.getItem().equalsIgnoreCase(eatItem)) {
-                return item;
-            }
-        }
-        return null;
-    }
-
-
-    public void removeFromInventory(Item itemToEat) {
-        aliceItems.remove(itemToEat);
-    }
-
-    public isItFood aliceEats(String eating) {
-        Item itemToEat = findItemInInventory(eating);
-
-        if (itemToEat == null) {
-            itemToEat = theRoomShesin.findItemInRoom(eating);
-        }
-        if (itemToEat == null) {
-            return isItFood.NO_FOOD_FOUND;
-        } else if (itemToEat instanceof Food) {
-            aliceHealthPoints = aliceHealthPoints + ((Food) itemToEat).getHealthPoints();
-            if (aliceItems.contains(itemToEat)) {
-                removeFromInventory(itemToEat);
-            } else {
-                theRoomShesin.removeItemFromList(itemToEat);
-            }
-            return isItFood.IT_IS_FOOD;
-        } else {
-            return isItFood.NOT_FOOD;
-        }
-    }
-
 
     public boolean canMove(String direction) {
         switch (direction) {
@@ -98,48 +40,6 @@ public class Alice {
         } else if (direction.equalsIgnoreCase("west")) {
             theRoomShesin = theRoomShesin.getWestAdjacentRoom();
         }
-    }
-
-
-    public Item findItem(String findItem) {
-        for (Item item : aliceItems) {
-            if (item.getItem().equalsIgnoreCase(findItem)) {
-                return item;
-            }
-        }
-        return null;
-    }
-
-
-    public boolean dropItem(String itemToDrop) {
-        Item variable = findItem(itemToDrop);
-        if (variable == null) {
-            return false;
-        }
-        aliceItems.remove(variable);
-        theRoomShesin.addItem(variable);
-        return true;
-    }
-
-    public boolean takeItem(String itemToTake) {
-        Item variableitem = theRoomShesin.findItemInRoom(itemToTake);
-        if (variableitem == null) {
-            return false;
-        }
-        aliceItems.add(variableitem);
-        theRoomShesin.removeItemFromList(variableitem);
-        return true;
-    }
-
-
-    //inventory
-    public String findItem() {
-        int counter = 1;
-        String empty = "";
-        for (Item currentItem : aliceItems) {
-            empty += "\n" + counter++ + ". " + currentItem.getItem() + currentItem.getItemDescription();
-        }
-        return empty;
     }
 
 
@@ -176,5 +76,172 @@ public class Alice {
     }
 
 
+    //health
+    public int getAliceHealthPoints() {
+        return aliceHealthPoints;
+    }
+
+    public void setAliceHealthPoints(int aliceHealthPoints) {
+        this.aliceHealthPoints = aliceHealthPoints;
+        if (aliceHealthPoints > 100) {
+            this.aliceHealthPoints = 100;
+        }
+    }
+
+    public String aliceHealth() {
+        if (this.aliceHealthPoints < 50 && this.aliceHealthPoints > 0) {
+            return this.aliceHealthPoints + ", you are low on health";
+        } else if (this.aliceHealthPoints > 50 && this.aliceHealthPoints <= 100) {
+            return this.aliceHealthPoints + ", you have a lot of health";
+        } else if (this.aliceHealthPoints == 50) {
+            return this.aliceHealthPoints + ", you are good girl";
+        } else if (this.aliceHealthPoints <= 0) {
+            return "game over!";
+        } else {
+            return "limit health is 100";
+        }
+    }
+
+    //items
+    public boolean dropItem(String itemToDrop) {
+        Item variable = findItem(itemToDrop);
+        if (variable == null) {
+            return false;
+        }
+        aliceItems.remove(variable);
+        theRoomShesin.addItem(variable);
+        return true;
+    }
+
+
+    public boolean takeItem(String itemToTake) {
+        Item variableitem = theRoomShesin.findItemInRoom(itemToTake);
+        if (variableitem == null) {
+            return false;
+        }
+        aliceItems.add(variableitem);
+        theRoomShesin.removeItemFromList(variableitem);
+        return true;
+    }
+
+
+    //item & inventory
+    public String findItem() {
+        int counter = 1;
+        String empty = "";
+        for (Item currentItem : aliceItems) {
+            empty += "\n" + counter++ + ". " + currentItem.getItem() + currentItem.getItemDescription();
+        }
+        return empty;
+    }
+
+
+    public Item findItemInInventory(String eatItem) {
+        for (Item item : aliceItems) {
+            if (item.getItem().equalsIgnoreCase(eatItem)) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+
+    public void removeFromInventory(Item itemToEat) {
+        aliceItems.remove(itemToEat);
+    }
+
+
+    public isIt aliceEats(String eating) {
+        Item itemToEat = findItemInInventory(eating);
+
+        if (itemToEat == null) {
+            itemToEat = theRoomShesin.findItemInRoom(eating);
+        }
+        if (itemToEat == null) {
+            return isIt.NOTHING_FOUND;
+        } else if (itemToEat instanceof Food) {
+            aliceHealthPoints = aliceHealthPoints + ((Food) itemToEat).getHealthPoints();
+            if (aliceItems.contains(itemToEat)) {
+                removeFromInventory(itemToEat);
+            } else {
+                theRoomShesin.removeItemFromList(itemToEat);
+            }
+            return isIt.IT_IS;
+        } else {
+            return isIt.ITS_NOT;
+        }
+    }
+
+
+    public Item findItem(String findItem) {
+        for (Item item : aliceItems) {
+            if (item.getItem().equalsIgnoreCase(findItem)) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+    //weaponry:
+
+
+    public String equipWeapon(String weapon) {
+        Item itemToEquip = findItemInInventory(weapon);
+        if (itemToEquip == null) {
+            return weapon + " is not in inventory";
+        } else if (itemToEquip instanceof Weapon) {
+            currentWeapon = ((Weapon)itemToEquip);
+            aliceItems.remove(itemToEquip);
+            return "you equip yourself with " + weapon;
+        } else {
+            return "that's not a weapon";
+        }
+    }
+
+    public String attack(){
+        Item itemToAttackWith = currentWeapon;
+        if (itemToAttackWith == null){
+            return "you are not equipped with a weapon";
+        }else if(itemToAttackWith instanceof RangedWeapon){
+            currentWeapon.remainingUses();
+            return "you attack with your " + currentWeapon.getItem() +  ", you used one of your ammos in this weapon.";
+        } else {
+            return "you attack the enemy with your " + currentWeapon.getItem();
+        }
+    }
+
+    public boolean useWeapon(){
+        return useWeapon();
+    }
+
+    public Weapon getCurrentWeapon() {
+        return currentWeapon;
+    }
+
+
+    public boolean dropWeapon(String itemToDrop) {
+        // checks if the current weapon has the same name as the item we want to drop.
+        if (currentWeapon == null || !currentWeapon.getItem().equalsIgnoreCase(itemToDrop)) {
+            return false;  // if Alice doesn't have a weapon, or if the weapon don't match, return false.
+        }
+        // adds the weapon to the room she's in and take it away form alice.
+        theRoomShesin.addItem(currentWeapon);
+        currentWeapon = null;
+        return true;
+    }
+
+
+    public String changeWeapon(String newWeaponName) {
+        if (currentWeapon != null) {
+            aliceItems.add(currentWeapon);
+            System.out.println(currentWeapon.getItem() + " was added to your inventory.");
+        }else {
+            return "you're not equipped with a weapon";
+        }return " ";
+    }
+
+
 }
+
+
 

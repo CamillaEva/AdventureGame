@@ -63,9 +63,13 @@ public class Room {
         return roomDescription;
     }
 
+
+
+    //Item methods:
     public ArrayList<Item> getItemList(){
         return itemList;
     }
+
 
     //adds to arraylist.
     public void addItem(String item, String itemDescription) {
@@ -80,6 +84,13 @@ public class Room {
         itemList.add(new Food(food,foodDescription,healthPoints));
     }
 
+    public void addMeleeWeapon(String weaponName, String weaponDescription, int healthPoints){
+        itemList.add(new MeleeWeapon(weaponName,weaponDescription,healthPoints));
+    }
+
+    public void addRangedWeapon(String weaponName, String weaponDescription, int healthPoints, int uses){
+        itemList.add(new RangedWeapon(weaponName,weaponDescription,healthPoints,uses));
+    }
 
 
     public Item findItemInRoom(String takeItem){
@@ -103,7 +114,7 @@ public class Room {
         int counter = 1;
         variabel = getRoomName() + ", " + getRoomDescription();
         if (!itemList.isEmpty()) {
-            variabel += "\nthe items are ";
+            variabel += "\nthe items in the room are ";
             for (Item currentItem : itemList) {
                 variabel += "\n" + counter++ + ". " + currentItem.getItem() + currentItem.getItemDescription();
             }
@@ -111,3 +122,4 @@ public class Room {
         return variabel;
     }
 }
+

@@ -1,5 +1,6 @@
 // User interface class to interact with the player via command-line input.
 
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class UserInterface {
@@ -28,6 +29,9 @@ public class UserInterface {
                 "\n*drop + itemname* - to drop an item" +
                 "\n*inventory* - to get a list of items you carry" +
                 "\n*health* - to see your health in the game." +
+                "\n*equip* - to get a weapon from your inventory." +
+                "\n*change + weapon* - to put weapon back in inventory" +
+                "\n*attack* - to attack an enemy." +
                 "\nwrite 'start' to begin the game");
 
 
@@ -55,17 +59,17 @@ public class UserInterface {
                             "'exit' - to end game.\n" +
                             "'look' - to get room number and description again.");
                     break;
-                    //for eating food and getting health.
+                //for eating food and getting health.
                 case "eat":
-                    isItFood isItFood = adventure.canAliceEat(commandoUserinput[1]);
-                    switch(isItFood){
-                        case IT_IS_FOOD:
-                            System.out.println("yes! you eat the" + commandoUserinput[1]);
+                    isIt isItFood = adventure.canAliceEat(commandoUserinput[1]);
+                    switch (isItFood) {
+                        case IT_IS:
+                            System.out.println("yes! you eat the " + commandoUserinput[1]);
                             break;
-                        case NO_FOOD_FOUND:
+                        case NOTHING_FOUND:
                             System.out.println("there's no food in your inventory nor in the room");
                             break;
-                        case NOT_FOOD:
+                        case ITS_NOT:
                             System.out.println("That's not food, you can't eat that!");
                         default:
                     }
@@ -82,12 +86,27 @@ public class UserInterface {
                         System.out.println("theres no " + commandoUserinput[1] + " in the room");
                     }
                     break;
-                //drop + the item you want to drop in the current room
+                //equip + the weapon of your choice
+                case "equip":
+                    System.out.println(adventure.equipWeapon(commandoUserinput[1]));
+                    break;
+                //attack to attack the enemies you come across.
+                case "attack":
+                    System.out.println(adventure.attack());
+                    break;
+                case "change":
+                    System.out.println(adventure.changeWeapon(commandoUserinput[1]));
+                    break;
+                //drop + what you want to drop, you leave it in the room.
                 case "drop":
-                    if (adventure.dropItem(commandoUserinput[1]) == true) {
-                        System.out.println("you drop the " + commandoUserinput[1] + " in " + adventure.getCurrentRoomName());
-                    } else {
-                        System.out.println("you don't have a " + commandoUserinput[1] + " in your inventory");
+                    if (adventure.dropItem(commandoUserinput[1])) {
+                        System.out.println("You drop the " + commandoUserinput[1] + " in " + adventure.getCurrentRoomName());
+                    }
+                    else if (adventure.dropWeapon(commandoUserinput[1])) {
+                        System.out.println("You drop the " + commandoUserinput[1] + " in " + adventure.getCurrentRoomName());
+                    }
+                    else {
+                        System.out.println("You don't have a " + commandoUserinput[1] + " in your inventory or equipped.");
                     }
                     break;
                 //inventory to check what items you are carrying

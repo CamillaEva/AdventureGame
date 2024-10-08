@@ -8,6 +8,7 @@ public class Adventure {
     //items:
 
 
+    //Map & Rooms
     public Adventure() {
         map = new Map();
         alice = new Alice(map.getTheFirstRoom());
@@ -29,24 +30,28 @@ public class Adventure {
         alice.moveToRoom(direction);
     }
 
-    public isItFood canAliceEat(String food) {
-        return alice.aliceEats(food);
-    }
-
-    public String aliceHealth(){
-        return alice.aliceHealth();
-    }
-
     public Map getMap() {
         return map;
     }
+
+    public String getCurrentRoomDetails() {
+        return alice.getCurrentRoom().toString();
+    }
+
+
+    //Alice and Items
 
     public Alice getAlice() {
         return alice;
     }
 
-    public String getCurrentRoomDetails() {
-        return alice.getCurrentRoom().toString();
+
+    public isIt canAliceEat(String food) {
+        return alice.aliceEats(food);
+    }
+
+    public String aliceHealth() {
+        return alice.aliceHealth();
     }
 
     public boolean dropItem(String itemToDrop) {
@@ -64,5 +69,41 @@ public class Adventure {
         return alice.findItem();
     }
 
+    //enemies and weaponry
 
+    public boolean useWeapon(){
+        return alice.useWeapon();
+    }
+
+
+    public Weapon getCurrentWeapon() {
+        return alice.getCurrentWeapon();
+    }
+
+    public String equipWeapon(String weapon){
+        return alice.equipWeapon(weapon);
+    }
+
+    public String attack(){
+        return alice.attack();
+    }
+
+
+    public boolean dropWeapon(String itemToDrop) {
+        return alice.dropWeapon(itemToDrop);
+    }
+
+
+    public String changeWeapon(String weaponName){
+        return alice.changeWeapon(weaponName);
+    }
+
+//    public Enemy currrentEnemy(){
+//        return alice.currentEnemy;
+//    }
+//
+//    public void damageEnemy(){
+//        return enemy.enemyHealth;
+//    }
 }
+
