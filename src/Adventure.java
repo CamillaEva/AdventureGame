@@ -58,7 +58,7 @@ public class Adventure {
         return alice.dropItem(itemToDrop);
     }
 
-    //try to take item, return true if successfull, otherwise return false.
+
     public Boolean takeItem(String itemToTake) {
         return alice.takeItem(itemToTake);
     }
@@ -71,21 +71,15 @@ public class Adventure {
 
     //enemies and weaponry
 
-    public boolean useWeapon(){
-        return alice.useWeapon();
-    }
-
-
-    public Weapon getCurrentWeapon() {
-        return alice.getCurrentWeapon();
-    }
 
     public String equipWeapon(String weapon){
         return alice.equipWeapon(weapon);
     }
 
-    public String attack(){
-        return alice.attack();
+
+
+    public String attack(String enemy){
+        return alice.attack(enemy);
     }
 
 
@@ -98,12 +92,6 @@ public class Adventure {
         return alice.changeWeapon(weaponName);
     }
 
-//    public Enemy currrentEnemy(){
-//        return alice.currentEnemy;
-//    }
-//
-//    public void damageEnemy(){
-//        return enemy.enemyHealth;
-//    }
+
 }
 

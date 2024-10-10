@@ -7,7 +7,6 @@ public class Item {
 
     }
 
-
     public Item(String item, String itemBeskrivelse) {
         this.item = item;
         this.itemDescription = itemBeskrivelse;

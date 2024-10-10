@@ -7,6 +7,7 @@ public class Alice {
     private Weapon currentWeapon;
 
 
+
     //moving methods for player
     public Alice(Room firstRoom) {
         theRoomShesin = firstRoom;
@@ -81,12 +82,7 @@ public class Alice {
         return aliceHealthPoints;
     }
 
-    public void setAliceHealthPoints(int aliceHealthPoints) {
-        this.aliceHealthPoints = aliceHealthPoints;
-        if (aliceHealthPoints > 100) {
-            this.aliceHealthPoints = 100;
-        }
-    }
+
 
     public String aliceHealth() {
         if (this.aliceHealthPoints < 50 && this.aliceHealthPoints > 0) {
@@ -96,7 +92,13 @@ public class Alice {
         } else if (this.aliceHealthPoints == 50) {
             return this.aliceHealthPoints + ", you are good girl";
         } else if (this.aliceHealthPoints <= 0) {
-            return "game over!";
+            return "\n" +
+                    "░██████╗░░█████╗░███╗░░░███╗███████╗  ░█████╗░██╗░░░██╗███████╗██████╗░\n" +
+                    "██╔════╝░██╔══██╗████╗░████║██╔════╝  ██╔══██╗██║░░░██║██╔════╝██╔══██╗\n" +
+                    "██║░░██╗░███████║██╔████╔██║█████╗░░  ██║░░██║╚██╗░██╔╝█████╗░░██████╔╝\n" +
+                    "██║░░╚██╗██╔══██║██║╚██╔╝██║██╔══╝░░  ██║░░██║░╚████╔╝░██╔══╝░░██╔══██╗\n" +
+                    "╚██████╔╝██║░░██║██║░╚═╝░██║███████╗  ╚█████╔╝░░╚██╔╝░░███████╗██║░░██║\n" +
+                    "░╚═════╝░╚═╝░░╚═╝╚═╝░░░░░╚═╝╚══════╝  ░╚════╝░░░░╚═╝░░░╚══════╝╚═╝░░╚═╝";
         } else {
             return "limit health is 100";
         }
@@ -184,47 +186,76 @@ public class Alice {
 
     //weaponry:
 
+    public void takeDamage(int damage) {
+        aliceHealthPoints -= damage;
+        if (aliceHealthPoints < 0) {
+            aliceHealthPoints = 0;
+        }
+    }
+
+
 
     public String equipWeapon(String weapon) {
         Item itemToEquip = findItemInInventory(weapon);
         if (itemToEquip == null) {
             return weapon + " is not in inventory";
         } else if (itemToEquip instanceof Weapon) {
-            currentWeapon = ((Weapon)itemToEquip);
+            currentWeapon = ((Weapon) itemToEquip);
             aliceItems.remove(itemToEquip);
-            return "you equip yourself with " + weapon;
+            return "you equip yourself with the " + weapon;
         } else {
             return "that's not a weapon";
         }
     }
 
-    public String attack(){
+
+    public String attack(String enemy) {
+        Enemy currentEnemy = theRoomShesin.findEnemyInRoom(enemy);
         Item itemToAttackWith = currentWeapon;
-        if (itemToAttackWith == null){
-            return "you are not equipped with a weapon";
-        }else if(itemToAttackWith instanceof RangedWeapon){
-            currentWeapon.remainingUses();
-            return "you attack with your " + currentWeapon.getItem() +  ", you used one of your ammos in this weapon.";
-        } else {
-            return "you attack the enemy with your " + currentWeapon.getItem();
+
+        if (currentEnemy.getEnemyHealthPoints() > 0) {
+            if (itemToAttackWith == null) {
+                return "you are not equipped with a weapon";
+            } else if (itemToAttackWith instanceof RangedWeapon) {
+                RangedWeapon rangedWeapon = (RangedWeapon) currentWeapon;
+                currentWeapon.remainingUses();
+                currentEnemy.takeDamage(currentWeapon.getDamagePoints());
+
+                if (currentEnemy.getEnemyHealthPoints() > 0) {
+                    takeDamage(currentEnemy.getEnemyWeapon().getDamagePoints());
+                    return "you attack the " + currentEnemy.getEnemyName() + " with your " + currentWeapon.getItem() + ", you used one of your ammos in this weapon. \nenemies health: " + currentEnemy.getEnemyHealthPoints()
+                            + "\nbut they attack you right back afterwards. \nyour health: " + aliceHealth();
+                } else {
+                    if (currentEnemy.getEnemyWeapon() != null) {
+                        theRoomShesin.addWeapon(currentEnemy.getEnemyWeapon());
+                    }
+                    theRoomShesin.removeEnemy(currentEnemy);
+                    return currentEnemy.getEnemyName() + " is defeated! and left behind a " + currentEnemy.getEnemyWeapon().getItem();
+                }
+            } else if (itemToAttackWith instanceof MeleeWeapon) {
+                currentEnemy.takeDamage(((MeleeWeapon) itemToAttackWith).getDamagePoints());
+                if (currentEnemy.getEnemyHealthPoints() > 0) {
+                    takeDamage(currentEnemy.getEnemyWeapon().getDamagePoints());
+                    return "you attack the " + currentEnemy.getEnemyName() + " with your " + itemToAttackWith.getItem()
+                            + "\nenemy's health: " + currentEnemy.getEnemyHealthPoints()  + "\nbut they attack you right back afterwards. \nyour health: " + aliceHealth();
+                } else {
+                    if (currentEnemy.getEnemyWeapon() != null) {
+                        theRoomShesin.addWeapon(currentEnemy.getEnemyWeapon());
+                    }
+                    theRoomShesin.removeEnemy(currentEnemy);
+                    return currentEnemy.getEnemyName() + " is defeated! and left behind a " + currentEnemy.getEnemyWeapon().getItem();
+                }
+            }
         }
+        return currentEnemy.getEnemyName() + " is already defeated";
     }
 
-    public boolean useWeapon(){
-        return useWeapon();
-    }
-
-    public Weapon getCurrentWeapon() {
-        return currentWeapon;
-    }
 
 
     public boolean dropWeapon(String itemToDrop) {
-        // checks if the current weapon has the same name as the item we want to drop.
         if (currentWeapon == null || !currentWeapon.getItem().equalsIgnoreCase(itemToDrop)) {
-            return false;  // if Alice doesn't have a weapon, or if the weapon don't match, return false.
+            return false;
         }
-        // adds the weapon to the room she's in and take it away form alice.
         theRoomShesin.addItem(currentWeapon);
         currentWeapon = null;
         return true;
@@ -235,13 +266,12 @@ public class Alice {
         if (currentWeapon != null) {
             aliceItems.add(currentWeapon);
             System.out.println(currentWeapon.getItem() + " was added to your inventory.");
-        }else {
+        } else {
             return "you're not equipped with a weapon";
-        }return " ";
+        }
+        return " ";
     }
 
 
 }
-
-
 

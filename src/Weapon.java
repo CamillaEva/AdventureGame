@@ -19,8 +19,6 @@ public abstract class Weapon extends Item {
 
 
 
-//(fx remainingUses() eller canUse() ) der så overrides i RangedWeapon.
-
     public int remainingUses(){
         remainingUses =  uses - 1;
         return remainingUses;

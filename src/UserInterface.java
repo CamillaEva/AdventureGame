@@ -20,24 +20,55 @@ public class UserInterface {
         String userinput = "";
 
         //instructions for the game.
-        System.out.println("welcome to the game" +
-                "\n*help* - if you want instructions or an overview of the commandos" +
-                "\n*look* - if you want to have the description of the room you're in one more time, write 'look'" +
-                "\n*go north*\n*go south*\n*go east*\n*go west* - to move in whatever direction you want." +
-                "\n*exit* - if you want to exit the game write 'exit'" +
-                "\n*take + itemname* - to grab an item" +
-                "\n*drop + itemname* - to drop an item" +
-                "\n*inventory* - to get a list of items you carry" +
-                "\n*health* - to see your health in the game." +
-                "\n*equip* - to get a weapon from your inventory." +
-                "\n*change + weapon* - to put weapon back in inventory" +
-                "\n*attack* - to attack an enemy." +
-                "\nwrite 'start' to begin the game");
+        System.out.println("welcome to " +
+                "\n" +
+                "░█████╗░██╗░░░░░██╗░█████╗░███████╗░██████╗\n" +
+                "██╔══██╗██║░░░░░██║██╔══██╗██╔════╝██╔════╝\n" +
+                "███████║██║░░░░░██║██║░░╚═╝█████╗░░╚█████╗░\n" +
+                "██╔══██║██║░░░░░██║██║░░██╗██╔══╝░░░╚═══██╗\n" +
+                "██║░░██║███████╗██║╚█████╔╝███████╗██████╔╝\n" +
+                "╚═╝░░╚═╝╚══════╝╚═╝░╚════╝░╚══════╝╚═════╝░\n" +
+                "\n" +
+                "░█████╗░██████╗░██╗░░░██╗███████╗███╗░░██╗████████╗██╗░░░██╗██████╗░███████╗░██████╗░░█████╗░███╗░░░███╗███████╗\n" +
+                "██╔══██╗██╔══██╗██║░░░██║██╔════╝████╗░██║╚══██╔══╝██║░░░██║██╔══██╗██╔════╝██╔════╝░██╔══██╗████╗░████║██╔════╝\n" +
+                "███████║██║░░██║╚██╗░██╔╝█████╗░░██╔██╗██║░░░██║░░░██║░░░██║██████╔╝█████╗░░██║░░██╗░███████║██╔████╔██║█████╗░░\n" +
+                "██╔══██║██║░░██║░╚████╔╝░██╔══╝░░██║╚████║░░░██║░░░██║░░░██║██╔══██╗██╔══╝░░██║░░╚██╗██╔══██║██║╚██╔╝██║██╔══╝░░\n" +
+                "██║░░██║██████╔╝░░╚██╔╝░░███████╗██║░╚███║░░░██║░░░╚██████╔╝██║░░██║███████╗╚██████╔╝██║░░██║██║░╚═╝░██║███████╗\n" +
+                "╚═╝░░╚═╝╚═════╝░░░░╚═╝░░░╚══════╝╚═╝░░╚══╝░░░╚═╝░░░░╚═════╝░╚═╝░░╚═╝╚══════╝░╚═════╝░╚═╝░░╚═╝╚═╝░░░░░╚═╝╚══════╝\n" +
+                "\n" +
+                "██╗███╗░░██╗  ░██╗░░░░░░░██╗░█████╗░███╗░░██╗██████╗░███████╗██████╗░██╗░░░░░░█████╗░███╗░░██╗██████╗░\n" +
+                "██║████╗░██║  ░██║░░██╗░░██║██╔══██╗████╗░██║██╔══██╗██╔════╝██╔══██╗██║░░░░░██╔══██╗████╗░██║██╔══██╗\n" +
+                "██║██╔██╗██║  ░╚██╗████╗██╔╝██║░░██║██╔██╗██║██║░░██║█████╗░░██████╔╝██║░░░░░███████║██╔██╗██║██║░░██║\n" +
+                "██║██║╚████║  ░░████╔═████║░██║░░██║██║╚████║██║░░██║██╔══╝░░██╔══██╗██║░░░░░██╔══██║██║╚████║██║░░██║\n" +
+                "██║██║░╚███║  ░░╚██╔╝░╚██╔╝░╚█████╔╝██║░╚███║██████╔╝███████╗██║░░██║███████╗██║░░██║██║░╚███║██████╔╝\n" +
+                "╚═╝╚═╝░░╚══╝  ░░░╚═╝░░░╚═╝░░░╚════╝░╚═╝░░╚══╝╚═════╝░╚══════╝╚═╝░░╚═╝╚══════╝╚═╝░░╚═╝╚═╝░░╚══╝╚═════╝░" +
+                "  " +
+                "  " +
+                " "  +
+                "\nHere's the game menu:" +
+                "\n---------------------------------" +
+                "\n* help *_____________ Get instructions or an overview of the commands" +
+                "\n* look *_____________ Get a description of the room you're in" +
+                "\n* go north *" +
+                "\n* go south *" +
+                "\n* go east *" +
+                "\n* go west *__________ Move in a direction" +
+                "\n* exit *_____________ Exit the game" +
+                "\n* take + itemName *__ Grab an item" +
+                "\n* drop + itemName *__ Drop an item" +
+                "\n* inventory *________ View the list of items you're carrying" +
+                "\n* health *___________ Check your health in the game" +
+                "\n* equip *____________ Equip a weapon from your inventory" +
+                "\n* change + weapon *__ Put current weapon back in your inventory" +
+                "\n* attack + enemy*____ Attack an enemy" +
+                "\n---------------------------------" +
+                "\nType 'start' to begin the game");
+
 
 
         userinput = "";
         //the while loop runs until userinput is exit.
-        while (!userinput.equalsIgnoreCase("exit")) {
+        while (!userinput.equalsIgnoreCase("exit")&& adventure.getAlice().getAliceHealthPoints() > 0) {
             userinput = input.nextLine();
             String[] commandoUserinput = userinput.split(" ");
             switch (commandoUserinput[0]) {
@@ -92,7 +123,7 @@ public class UserInterface {
                     break;
                 //attack to attack the enemies you come across.
                 case "attack":
-                    System.out.println(adventure.attack());
+                    System.out.println(adventure.attack(commandoUserinput[1]));
                     break;
                 case "change":
                     System.out.println(adventure.changeWeapon(commandoUserinput[1]));

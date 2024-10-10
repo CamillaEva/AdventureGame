@@ -1,38 +1,26 @@
 public class RangedWeapon extends Weapon {
+
     private int damagePoints;
-    private int uses;
+    private int remainingUses;
 
 
-    public RangedWeapon(String weaponName, String weaponDescription, int damagePoints, int uses) {
+    public RangedWeapon(String weaponName, String weaponDescription, int damagePoints, int maxUses) {
         super(weaponName, weaponDescription);
         this.damagePoints = damagePoints;
-        this.uses = uses;
+        this.remainingUses =maxUses;
     }
+
+
 
     public int getDamagePoints() {
         return damagePoints;
     }
 
-    public int getUses() {
-        return uses;
-    }
-
-    public boolean useWeapon() {
-        if (uses > 0) {
-            uses--;
-            System.out.println(getItem() + "used! remaining uses: " + uses);
-            return true;
-        } else {
-            System.out.println(getItem() + " is out of ammo");
-            return false;
-        }
-    }
 
 
     @Override
     Item weapon(String weaponName, String weaponDescription, int damagePoints) {
         return null;
     }
-
 
 }
